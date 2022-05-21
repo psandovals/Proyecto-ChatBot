@@ -1,0 +1,14 @@
+{"respuestas":[
+        {"tag": "saludo",
+            "patrones":["hola", "saludos", "un saludos", "hello"],
+            "respuesta":["Hola que tal!", "Hola gusto de saludarte"," Hola como puedo ayudarte", "Hola como te va?"]
+        },
+        {"tag": "despedida",
+            "patrones":["adios", "hasta la proxima", "muchas gracias", "bendiciones nos vemos"],
+            "respuesta":["un gusto, bye", "cuidate","que Dios te bendiga", "saludos nos vemos", "hasta luego"]
+        }
+
+]
+
+
+}
