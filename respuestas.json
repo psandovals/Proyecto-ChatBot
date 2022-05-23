@@ -1,6 +1,6 @@
 {"respuestas":[
         {"tag": "saludo",
-            "patrones":["hola", "saludos", "un saludos", "hello"],
+            "patrones":["hola", "saludos", "un saludo", "hello"],
             "respuesta":["Hola que tal!", "Hola gusto de saludarte"," Hola como puedo ayudarte", "Hola como te va?"]
         },
         {"tag": "despedida",
