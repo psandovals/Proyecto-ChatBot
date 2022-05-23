@@ -6,6 +6,11 @@
         {"tag": "despedida",
             "patrones":["adios", "hasta la proxima", "muchas gracias", "bendiciones nos vemos"],
             "respuesta":["un gusto, bye", "cuidate","que Dios te bendiga", "saludos nos vemos", "hasta luego"]
+        },
+        {"tag":"carreras",
+            "patrones":["facultades","carrera","carrera disponible", "facultades existentes", "que carrearas hay?"],
+            "respuesta": ["Ingenieria en Sistemas, Ingenieria industrial, Psicologia, Trabajo Social"]
+
         }
 
 ]
