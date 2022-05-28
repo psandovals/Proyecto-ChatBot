@@ -17,7 +17,7 @@ import pickle
 
  #CREAMOS UN OBJETO DE LA CLASE lancasterStemmer
  #CON SU METODO stem NOS PERMITE OBTENER LA RAÍZ LEXICA DE UNA PALABRA
-stemmer = nt.stem.lancaster.LancasterStemmer()
+stemmer = nt.stem.lancaster.LancasterStemmer()    
 
 
 #OBTENEMOS LOS DATOS DE NUESTRO ARCHIVO JSON
@@ -109,20 +109,32 @@ salida = np.array(salida)
 #METODO QUE NOS SIRVE PARA LIMPIAR NUESTRO ESPACIO DE TRABAJO
 tf.compat.v1.reset_default_graph()
 
+#DEFINIMOS LAS ENTRADAS DE NUESTRA RED NEURONAL SIN NINGUNA FORMA Y CON LA LONGITUD EN 0 DE LA MATRIZ "entrenamiento"
 net = tl.input_data(shape = [None, len(entrenamiento[0]) ])
+#DEFINIMOS LA PRIMERA HIDDEN LAYER DE NUESTRA RED TOTALMENTE CONECTADA CON TODOS LOS NODOS Y CON UNA CANTIDAD DE 10
 net = tl.fully_connected(net, 10)
+#DEFINIMOS LA SEGUNDA HIDDEN LAYER DE NUESTRA RED TOTALMENTE CONECTADA CON TODOS LOS NODOS Y CON UNA CANTIDAD DE 10
 net = tl.fully_connected(net, 10)
+#DEFINIMOS LAS SALIDAS DE NUESTRA RED NEUROAL CON LA LONGITUD DEL ARRAY "salida" Y CON EL TIPO DE ACTIVACIÓN SOFTMAX 
 net = tl.fully_connected(net, len(salida[0]), activation = "softmax")
+#APLICAMOS REGRESION PARA OBTENER PROBABILIDADES DE NUESTRA RED NEURONAL
 net = tl.regression(net)
-
+#ESTABLECEMOS EL MODELO DE NUESTRA RED NEURONAL Y ENVIAMOS NUESTRA RED COMO PARÁMETRO
 model = tl.DNN(net)
+#DAMOS FORMA DE A NUESTRA RED NEURONAL CON PARAMETTROS DE: ENTRADA(etrenamiento), OBJETIVSO(salida), EPOCH(numero de repeticiones de entrenamiento),BATCH_SIZE(numero de muestras/lote propagada en la red)
+#, SHOW_METRIC(aceptamos mostrar las metricas de las iteraciones)
 model.fit(entrenamiento, salida, n_epoch = 1000, batch_size = 10, show_metric= True)
+#GUARDAMOS NUESTRO MODELO ENTRENADO
 model.save("modelo.tflearn")
 
+#DEGINIMOS NUESTRA FUNCION PRINCIPAL DE INTERACCION DE CHAT CON EL USUARIO
 def mainChatBot():
+    #CREAMOS UN CICLO INFINITO
     while True:
+        #ASIGNAMOS LA ENTRADA DE DATOS A "entrada" Y MOSTRAMOS EN PANTALLA "Tu" PARA EL USUARIO
         entrada = input("Tu:")
         cubeta = [0 for _ in range(len(palabras))]
         entradaProc = nt.word_tokenize(entrada)
         entradaProc
+
 
