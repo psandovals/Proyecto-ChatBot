@@ -8,12 +8,11 @@
             "respuesta":["un gusto, bye", "cuidate","que Dios te bendiga", "saludos nos vemos", "hasta luego"]
         },
         {"tag":"carreras",
-            "patrones":["facultades","carrera","carrera disponible", "facultades existentes", "que carrearas hay?"],
-            "respuesta": ["Ingenieria en Sistemas, Ingenieria industrial, Psicologia, Trabajo Social"]
+            "patrones":["facultades","carrera","carrera disponible", "facultades existentes", "que carreras hay?","informacion de carreras"],
+            "respuesta": [" Las Carreras disponibles son : Ingenieria en Sistemas, Ingenieria industrial, Psicologia, Trabajo Social"]
 
         }
+            ]
 
-]
 
-
-}
+} 

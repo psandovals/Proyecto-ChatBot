@@ -107,7 +107,7 @@ entrenamiento = np.array(entrenamiento)
 salida = np.array(salida)
 
 #METODO QUE NOS SIRVE PARA LIMPIAR NUESTRO ESPACIO DE TRABAJO
-tf.compat.v1.reset_default_graph()
+#tf.compat.v1.reset_default_graph()
 
 #DEFINIMOS LAS ENTRADAS DE NUESTRA RED NEURONAL SIN NINGUNA FORMA Y CON LA LONGITUD EN 0 DE LA MATRIZ "entrenamiento"
 net = tl.input_data(shape = [None, len(entrenamiento[0]) ])
@@ -123,7 +123,7 @@ net = tl.regression(net)
 model = tl.DNN(net)
 #DAMOS FORMA DE A NUESTRA RED NEURONAL CON PARAMETTROS DE: ENTRADA(etrenamiento), OBJETIVSO(salida), EPOCH(numero de repeticiones de entrenamiento),BATCH_SIZE(numero de muestras/lote propagada en la red)
 #, SHOW_METRIC(aceptamos mostrar las metricas de las iteraciones)
-model.fit(entrenamiento, salida, n_epoch = 1000, batch_size = 10, show_metric= True)
+model.fit(entrenamiento, salida, n_epoch = 10000, batch_size = 10, show_metric= True)
 #GUARDAMOS NUESTRO MODELO ENTRENADO
 model.save("modelo.tflearn")
 
@@ -133,8 +133,23 @@ def mainChatBot():
     while True:
         #ASIGNAMOS LA ENTRADA DE DATOS A "entrada" Y MOSTRAMOS EN PANTALLA "Tu" PARA EL USUARIO
         entrada = input("Tu:")
+        #LLENAMOS DE 0  LA CUBETA CON LA LONGITUD DE LA LISTA "palabras"
         cubeta = [0 for _ in range(len(palabras))]
+        #SEPARAMAOS EN TOKENS EL STRING QUE RECIBE "entrada"
         entradaProc = nt.word_tokenize(entrada)
-        entradaProc
-
-
+        #OBTENEMOS LA RAIZ DE LAS PALABRAS SEPARADAS EN TOKENS CON EL METODO "stem"
+        entradaProc = [stemmer.stem(p.lower()) for p in entradaProc]
+        #
+        for palIndi in entradaProc:
+            for i, palabra in enumerate(palabras):
+                if palabra == palIndi:
+                    cubeta[i] = 1
+        resultados = model.predict([np.array(cubeta)])
+        resultadosIndices = np.argmax(resultados)
+        tag = tags[resultadosIndices]
+        
+        for tagAyu in contenido["respuestas"]:
+            if tagAyu["tag"] == tag:
+                respuesta = tagAyu["respuesta"]
+        print("Oficina UMG: ", random.choice(respuesta))
+mainChatBot()
