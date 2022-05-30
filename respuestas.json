@@ -1,4 +1,5 @@
-{"respuestas":[
+{"respuestas":
+    [
         {"tag": "saludo",
             "patrones":["hola", "saludos", "un saludo", "hello"],
             "respuesta":["Hola que tal!", "Hola gusto de saludarte"," Hola como puedo ayudarte", "Hola como te va?"]
@@ -9,10 +10,29 @@
         },
         {"tag":"carreras",
             "patrones":["facultades","carrera","carrera disponible", "facultades existentes", "que carreras hay?","informacion de carreras"],
-            "respuesta": [" Las Carreras disponibles son : Ingenieria en Sistemas, Ingenieria industrial, Psicologia, Trabajo Social"]
+            "respuesta": [" Las Carreras disponibles son :\n-Ingenieria en Sistemas\n-Ingenieria industrial\n-Psicologia\n-Trabajo Social"]
+        },
+        {"tag":"inscripcion",
+            "patrones":["informacion de inscripcion", "como puedo inscribirme", "que tengo que hacer para inscribirme", "como puedo asignarme" ],
+            "respuesta":["los pasos para inscribirte en la universidad son:\n1. Visitar  la Oficina de UMG Mazatenango, solicitar los documentos necarios para inscripción y presentarlos\n2.Indicar que carrera te interesa y que semestre\n3.Solicitar boleta de inscripcion\n4. Seleccionar con un check las casillas de los cursos que deseas asignarte y firmar\n5. Pagar la inscripcion en banco y recibir comprobante de pago.\n6.LLevar el comprobante de pago a oficina."]
+        },
+        {"tag":"ubicacion oficina",
+            "patrones":["ubicacion de oficina","donde se encuentra la oficina","como ubico la oficina","localizacion oficina"],
+            "respuesta":["La ubicacion de la oficina es: 2a. Avenida 455\npuedes ver la ubicación aqui:\nhttps://goo.gl/maps/j6PVhxVaq9V7oYLt9"]
+        },
 
+        {"tag":"ubicacion universidad",
+          "patrones":["ubicacion de la universidad","en donde se encuentra la universidad","localización de la universidad", "donde está la universidad","donde estan las instalaciones de la universidad"],
+          "respuesta":["La dirección de la universidad es : GFMQ+VQV, Mazatenango\npuedes ver la ubicación aqui:\nhttps://goo.gl/maps/vcNWiSr9M9c8XCru8"]  
+        },
+        {"tag":"decano",
+            "patrones":["responsable de la universidad", "quien es el decano", "quien es el rector"],
+            "respuesta":["El rector de la Universidad Mariano Galvez de la Sede Mazatenango es el Lic. Boris"]
+        },
+        {"tag":"coordinador",
+            "patrones":["responsable de Ingenieria de sistemas", "coordinador de la carrera de sistemas", "coordinador de la facultad de sistemas"],
+            "respuesta":["El Coordinador de la Carrera de Ingenieria en Sistemas\nde la Universidad Mariano Galvez de la Sede Mazatenango es el Ing. Angel Atilio Maltez"]
         }
-            ]
 
-
+    ]
 } 

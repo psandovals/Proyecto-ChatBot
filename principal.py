@@ -111,10 +111,12 @@ salida = np.array(salida)
 
 #DEFINIMOS LAS ENTRADAS DE NUESTRA RED NEURONAL SIN NINGUNA FORMA Y CON LA LONGITUD EN 0 DE LA MATRIZ "entrenamiento"
 net = tl.input_data(shape = [None, len(entrenamiento[0]) ])
-#DEFINIMOS LA PRIMERA HIDDEN LAYER DE NUESTRA RED TOTALMENTE CONECTADA CON TODOS LOS NODOS Y CON UNA CANTIDAD DE 10
-net = tl.fully_connected(net, 10)
-#DEFINIMOS LA SEGUNDA HIDDEN LAYER DE NUESTRA RED TOTALMENTE CONECTADA CON TODOS LOS NODOS Y CON UNA CANTIDAD DE 10
-net = tl.fully_connected(net, 10)
+#DEFINIMOS LA PRIMERA HIDDEN LAYER DE NUESTRA RED TOTALMENTE CONECTADA CON TODOS LOS NODOS Y CON UNA CANTIDAD DE 20
+net = tl.fully_connected(net, 20)
+#DEFINIMOS LA SEGUNDA HIDDEN LAYER DE NUESTRA RED TOTALMENTE CONECTADA CON TODOS LOS NODOS Y CON UNA CANTIDAD DE 20
+net = tl.fully_connected(net, 20)
+##DEFINIMOS LA SEGUNDA HIDDEN LAYER DE NUESTRA RED TOTALMENTE CONECTADA CON TODOS LOS NODOS Y CON UNA CANTIDAD DE 20
+net = tl.fully_connected(net, 20)
 #DEFINIMOS LAS SALIDAS DE NUESTRA RED NEUROAL CON LA LONGITUD DEL ARRAY "salida" Y CON EL TIPO DE ACTIVACIÓN SOFTMAX 
 net = tl.fully_connected(net, len(salida[0]), activation = "softmax")
 #APLICAMOS REGRESION PARA OBTENER PROBABILIDADES DE NUESTRA RED NEURONAL
@@ -151,5 +153,5 @@ def mainChatBot():
         for tagAyu in contenido["respuestas"]:
             if tagAyu["tag"] == tag:
                 respuesta = tagAyu["respuesta"]
-        print("Oficina UMG: ", random.choice(respuesta))
+        print("\nOficina UMG: ", random.choice(respuesta),"\n")
 mainChatBot()
