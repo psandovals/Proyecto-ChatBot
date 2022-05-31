@@ -141,13 +141,31 @@ def mainChatBot():
         entradaProc = nt.word_tokenize(entrada)
         #OBTENEMOS LA RAIZ DE LAS PALABRAS SEPARADAS EN TOKENS CON EL METODO "stem"
         entradaProc = [stemmer.stem(p.lower()) for p in entradaProc]
-        #
-        for palIndi in entradaProc:
+        #RECORREMOS EL ARREGLO "entradaProc"
+        for palabraIndividual in entradaProc:
+            #REALIZAMOS EL ALGROITMO DE LA CUBETA
+            #EN LA VARIABLE i GUARDAMOS EL NUMERO DE ORDEN
+            #Y EN LA VARIABLE "palabra" GUARDAMOS EL VALOR(STRING)
             for i, palabra in enumerate(palabras):
-                if palabra == palIndi:
+                #SI EL ELEMENTO "palabraIndividual" COINCIDE CON
+                #"palabra" SE AGREGA UN 1 EN ESA POSICIÓN A "cubeta"
+                if palabra == palabraIndividual:
                     cubeta[i] = 1
+        print("Resultado de Cubeta: \n",cubeta)#buscar un 1 con where o con el otro metodo
         resultados = model.predict([np.array(cubeta)])
-        resultadosIndices = np.argmax(resultados)
+        print("Resultados metodo predict: \n",resultados)
+        resultadosIndices = np.empty(shape=0)
+        valor = np.max(resultados)
+        
+        
+        if valor > 9 :
+            resultadosIndices = np.argmax(resultados)
+            
+        else:
+            resultadosIndices= -1
+             
+        
+        print("Resultados metodo argmax: \n",resultadosIndices)
         tag = tags[resultadosIndices]
         
         for tagAyu in contenido["respuestas"]:
