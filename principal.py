@@ -14,26 +14,28 @@ import random
 #LIBRERÍA PARA GUARDAR NUESTROS MODELOS DE REDES NEURONALES
 import pickle
 
-
+#/*/*/*/*/*/*/*/INSTANCIA CLASE "LancasterStemmer"/*/*/*/*/*/*/*/
  #CREAMOS UN OBJETO DE LA CLASE lancasterStemmer
  #CON SU METODO stem NOS PERMITE OBTENER LA RAÍZ LEXICA DE UNA PALABRA
 stemmer = nt.stem.lancaster.LancasterStemmer()    
 
-
+#/*/*/*/*/*/*/*/LECTURA DE ARCHIVO JSON/*/*/*/*/*/*/*/
 #OBTENEMOS LOS DATOS DE NUESTRO ARCHIVO JSON
 with open("respuestas.json") as f:
     #VOLCAMOS LOS DATOS DEL ARCHIVO JSON EN UNA VARIABLE
-    contenido = json.load(f)
-
+    archivoJson = json.load(f)
+#/*/*/*/*/*/*/ DECLARACIÓN LISTAS/*/*/*/*/*/*
 #LISTA QUE CONTIENE LAS PALABRAS RECONOCIDAS
 palabras = []
 #LISTA QUE CONTIENE LAS ETIQUETAS DE LAS PALABRAS
 tags = []
-#
+#LISTAS AUXILIARES
 auxX=[]
 auxY=[]
+
+#/*/*/*/*/*/*/RECORRIDO ARCHIVO JSON Y LLENADO DE VARIABLES(patrones y tags)/*/*/*/*/*/*
 #RECORREMOS EL ARCHIVO JSON EN EL ARREGLO DE CATEGORÍAS
-for i in contenido["respuestas"]:
+for i in archivoJson["respuestas"]:
     #RECORREMOS EL ARCHIVO JSON EN EL ARREGLO DE PATRONES
     for patrones in i["patrones"]:
         #OBTENEMOS LAS FRASES DEL ARREGLO DE PATRONES Y RECONOCE LAS PALABRAS
@@ -51,11 +53,8 @@ for i in contenido["respuestas"]:
             #INSERTAMOS ESE TAG EN EL ARREGLO tags
             tags.append(i["tag"])
 
-print("Palabras: ",palabras)
-print("Auxiliar en X: ",auxX)
-print("Auxiliar en Y: ",auxY)
-print("Tags: ",tags)
 
+#/*/*/*/*/*/*/ PROCESO STEM EN PATRONES TOKENIZADOS/*/*/*/*/*/*
 #EL ARREGLO PALABRAS CONTIENE LOS TOKENS Y BUSCAMOS LAS RAÍCES DE LAS PALABRAS 
 #Y EVITAMOS LOS SIGNOS DE INTERROGACIÓN
 palabras = [stemmer.stem(p.lower()) for p in palabras if p != "?"] 
@@ -64,20 +63,23 @@ palabras = sorted(list(set(palabras)))
 #DEVOLVEMOS UNA LISTA ORDENADA DE tags
 tags = sorted(tags)
 
+#/*/*/*/*/*/*/DECLARACIÓN LISTAS/*/*/*/*/*/*
 #CREAMOS LISTA PARA ENETRENAMIENTO DE LA RED NEURONAL
 entrenamiento = []
 #CREAMOS LISTA PARA LOS DATOS DE SALIDA
 salida = []
-
 #CREAMOS UNA LISTA LLENA DE LA CANTIDAD DE CEROS COMO LA LONGITUD DE LA LISTA tags
 salidaVacia = [0 for _ in range(len(tags))]
 
-#APLICACIÓN DEL ALGORITMO DE LA CUBETA
+
+
+#/*/*/*/*/*/*/*/APLICACIÓN DEL ALGORITMO DE LA CUBETA/*/*/*/*/*/*//*/
 for x,documento in enumerate(auxX):
     #CREAMOS UNA LISTA VACIA LLAMADA cubeta
     cubeta= []
     #OBTENEMOS LA RAÍZ DE LAS PALABRAS DE LA VARIABLE documento
     auxPalabra = [stemmer.stem(p.lower()) for p in documento]
+
     #RECORREMOS LA LISTA palabras
     for w in palabras : 
         #SI EL CONTENIDO COINCIDE CON EL COTENIDO DE auxpalabra
@@ -98,41 +100,43 @@ for x,documento in enumerate(auxX):
     #INSERTAMOS EL RESULTADO DE LA LISTA filaSalida en salida
     salida.append(filaSalida)
 
-
-print(entrenamiento)
-print(salida)
-
-#CONVERTIMOS LAS 2 LISTAS EN ARRAYS DE NUMPY
+#/*/*/*/**/*/CONVERTIMOS LAS 2 LISTAS EN ARRAYS DE NUMPY/*/*/*/*/*/*/*/*/*/*
 entrenamiento = np.array(entrenamiento)
 salida = np.array(salida)
 
-#METODO QUE NOS SIRVE PARA LIMPIAR NUESTRO ESPACIO DE TRABAJO
-#tf.compat.v1.reset_default_graph()
-
+#/*/*/*/*/*/*/DECLARACION DE NUESTRAS CAPAS DE RED NEURONAL/*/*/*/*/*/*
 #DEFINIMOS LAS ENTRADAS DE NUESTRA RED NEURONAL SIN NINGUNA FORMA Y CON LA LONGITUD EN 0 DE LA MATRIZ "entrenamiento"
 net = tl.input_data(shape = [None, len(entrenamiento[0]) ])
 #DEFINIMOS LA PRIMERA HIDDEN LAYER DE NUESTRA RED TOTALMENTE CONECTADA CON TODOS LOS NODOS Y CON UNA CANTIDAD DE 20
-net = tl.fully_connected(net, 20)
+net = tl.fully_connected(net, 100)
 #DEFINIMOS LA SEGUNDA HIDDEN LAYER DE NUESTRA RED TOTALMENTE CONECTADA CON TODOS LOS NODOS Y CON UNA CANTIDAD DE 20
-net = tl.fully_connected(net, 20)
-##DEFINIMOS LA SEGUNDA HIDDEN LAYER DE NUESTRA RED TOTALMENTE CONECTADA CON TODOS LOS NODOS Y CON UNA CANTIDAD DE 20
-net = tl.fully_connected(net, 20)
+net = tl.fully_connected(net, 100)
+##DEFINIMOS LA TERCERA HIDDEN LAYER DE NUESTRA RED TOTALMENTE CONECTADA CON TODOS LOS NODOS Y CON UNA CANTIDAD DE 20
+net = tl.fully_connected(net, 100)
 #DEFINIMOS LAS SALIDAS DE NUESTRA RED NEUROAL CON LA LONGITUD DEL ARRAY "salida" Y CON EL TIPO DE ACTIVACIÓN SOFTMAX 
 net = tl.fully_connected(net, len(salida[0]), activation = "softmax")
 #APLICAMOS REGRESION PARA OBTENER PROBABILIDADES DE NUESTRA RED NEURONAL
 net = tl.regression(net)
 #ESTABLECEMOS EL MODELO DE NUESTRA RED NEURONAL Y ENVIAMOS NUESTRA RED COMO PARÁMETRO
-model = tl.DNN(net)
-#DAMOS FORMA DE A NUESTRA RED NEURONAL CON PARAMETTROS DE: ENTRADA(etrenamiento), OBJETIVSO(salida), EPOCH(numero de repeticiones de entrenamiento),BATCH_SIZE(numero de muestras/lote propagada en la red)
-#, SHOW_METRIC(aceptamos mostrar las metricas de las iteraciones)
-model.fit(entrenamiento, salida, n_epoch = 10000, batch_size = 10, show_metric= True)
-#GUARDAMOS NUESTRO MODELO ENTRENADO
-model.save("modelo.tflearn")
 
+#/*/*/*/*/*/*/DECALARACION Y CONFIGURACION DE MODELO DE RED NEURONAL/*/*/*/*/*/*
+model = tl.DNN(net)
+try:
+    model.load("modelo.tflearn")
+except:
+    #DAMOS FORMA DE A NUESTRA RED NEURONAL CON PARAMETTROS DE: ENTRADA(etrenamiento), OBJETIVSO(salida), 
+    # EPOCH(numero de repeticiones de entrenamiento),BATCH_SIZE(numero de muestras/lote propagada en la red)
+    #, SHOW_METRIC(aceptamos mostrar las metricas de las iteraciones)
+    model.fit(entrenamiento, salida, n_epoch = 50000, batch_size = len(palabras[0]), show_metric= True)
+    #GUARDAMOS NUESTRO MODELO ENTRENADO
+    model.save("modelo.tflearn")
+
+#/*/*/*/**/*/*/*/*/*/INTERACCION USUSARIO/*/*/*/*/*/*/*/*/*/
 #DEGINIMOS NUESTRA FUNCION PRINCIPAL DE INTERACCION DE CHAT CON EL USUARIO
 def mainChatBot():
     #CREAMOS UN CICLO INFINITO
     while True:
+        #/*/*/*/*/*/TRATAMIENTO DE ENTRADA DEL USUARIO/*/*/*/*/
         #ASIGNAMOS LA ENTRADA DE DATOS A "entrada" Y MOSTRAMOS EN PANTALLA "Tu" PARA EL USUARIO
         entrada = input("Tu:")
         #LLENAMOS DE 0  LA CUBETA CON LA LONGITUD DE LA LISTA "palabras"
@@ -151,25 +155,36 @@ def mainChatBot():
                 #"palabra" SE AGREGA UN 1 EN ESA POSICIÓN A "cubeta"
                 if palabra == palabraIndividual:
                     cubeta[i] = 1
-        print("Resultado de Cubeta: \n",cubeta)#buscar un 1 con where o con el otro metodo
+
+       #/*/*/*/*/RESPUESTA PREDICCIÓN RED NEURONAL/*/*/*/
         resultados = model.predict([np.array(cubeta)])
-        print("Resultados metodo predict: \n",resultados)
+        #CREAMOS VARIABLES DE INDICES VACÍA DE TIPO NUMPY
         resultadosIndices = np.empty(shape=0)
+        #OBTENEMOS EL VALOR MÁS ALTO DE LOS RESULTADOS DE PROBABILIDAD
         valor = np.max(resultados)
         
-        
-        if valor > 9 :
+        #/*/*/*/*/*VALIDACION DE DESCARTE/*//*/*/*//*
+        #VALIDAMOS SI HAY UNA PROBABILIDAD DE COINCIDENCIA QUE SEA SUFICIENTE
+        #SI ES VERDADERO
+        if valor > 0.85 :
+            #PASAMOS EL INDICE CON MAS PROBABILIDAD DE "resultados" a "resultadosIndices"
             resultadosIndices = np.argmax(resultados)
-            
+        #DE LO CONTRARIO    
         else:
-            resultadosIndices= -1
-             
-        
-        print("Resultados metodo argmax: \n",resultadosIndices)
+            #ASIGNAMOS DIRECTAMENTE EL INDICE DE TAG DE RESPUESTAS DE DESCARTE
+            resultadosIndices = 0
+        #ASIGNAMOS A TAGS EL VALOR DE INDICE DE "resultadosIndices"
         tag = tags[resultadosIndices]
         
-        for tagAyu in contenido["respuestas"]:
+        #/*/*/*/*/MATCH DE CAETEGORÍA USUARIO-JSON/*/*/*/*/*
+        for tagAyu in archivoJson["respuestas"]:
+            #VERIFICAMOS SI LA ETIQUETA DETECTADA SE ENCUENTRA EN EL JSON
             if tagAyu["tag"] == tag:
+                #SI ES VERDADERO GUARDAMOS EL ARREGLO DE RESPUESTAS
+                #DE ESA CATEGORÍA EN LA VARIABLE "respuestas"
                 respuesta = tagAyu["respuesta"]
-        print("\nOficina UMG: ", random.choice(respuesta),"\n")
+        #SE ELIGE LA RESPUESTA DE FORMA ALEATORIA DEL ARREGLO OBTENIDO
+        print("\nUMG: ", random.choice(respuesta),"\n")
+
+#LLAMADA A FUNCION PRINCIPAL
 mainChatBot()

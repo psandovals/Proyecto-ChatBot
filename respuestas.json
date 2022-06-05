@@ -5,15 +5,21 @@
             "respuesta":["Hola que tal!", "Hola gusto de saludarte"," Hola como puedo ayudarte", "Hola como te va?"]
         },
         {"tag": "despedida",
-            "patrones":["adios", "hasta la proxima", "muchas gracias adios", "bendiciones nos vemos"],
-            "respuesta":["un gusto, bye", "cuidate","que Dios te bendiga", "saludos nos vemos", "hasta luego"]
+            "patrones":["adios", "hasta la proxima", "muchas gracias adios", "bendiciones nos vemos","muchas gracias"],
+            "respuesta":["un gusto, bye", "es un gusto atenderte","que Dios te bendiga", "saludos", "hasta luego"]
         },
         {"tag":"carreras",
             "patrones":["facultades","carrera","carrera disponible", "facultades existentes", "carreras hay?","informacion carreras"],
             "respuesta": [" Las Carreras disponibles son :\n-Ingenieria en Sistemas\n-Ingenieria industrial\n-Psicologia\n-Trabajo Social"]
         },
-        {"tag":"inscripcion",
-            "patrones":["informacion inscripcion", "como inscribirme", "tengo hacer inscribirme", "como asignarme" ],
+
+        {"tag":"requisitos inscripcion",
+            "patrones":["documentos presentar", "requisitos inscripcion", "requisitos inscribirme", "documentos inscribirme" ],
+            "respuesta":["los documentos requeridos para inscribirte son:\n1. Completar Formulario de Nuevo Estudiante\n2.Original y fotocopia de DPI\n3.Certificado original de Basicos y Diversificado\n4.Fotostática de titulo de 5x7 pulgadas.(sellado por Contraloria de Cuentas).\n5.Dos fotografias recientes tamaño Cedula."]
+        },
+
+        {"tag":"pasos inscripcion",
+            "patrones":["informacion inscripcion", "como inscribirme", "tengo hacer inscribirme", "como asignarme","?" ],
             "respuesta":["los pasos para inscribirte en la universidad son:\n1. Visitar  la Oficina de UMG Mazatenango, solicitar los documentos necarios para inscripción y presentarlos\n2.Indicar que carrera te interesa y que semestre\n3.Solicitar boleta de inscripcion\n4. Seleccionar con un check las casillas de los cursos que deseas asignarte y firmar\n5. Pagar la inscripcion en banco y recibir comprobante de pago.\n6.LLevar el comprobante de pago a oficina."]
         },
         {"tag":"ubicacion oficina",
@@ -30,9 +36,23 @@
             "respuesta":["El rector de la Universidad Mariano Galvez de la Sede Mazatenango es el Lic. Boris"]
         },
         {"tag":"coordinador",
-            "patrones":["responsable Ingenieria en sistemas", "coordinador carrera sistemas", "coordinador facultad sistemas"],
-            "respuesta":["El Coordinador de la Carrera de Ingenieria en Sistemas\nde la Universidad Mariano Galvez de la Sede Mazatenango es el Ing. Angel Atilio Maltez"]
+            "patrones":["responsable Ingenieria en sistemas", "coordinador carrera sistemas", "coordinador facultad sistemas","coordinador sistemas","¿?"],
+            "respuesta":["El Coordinador de la Carrera de Ingenieria en Sistemas\nde la Universidad Mariano Galvez de la Sede Mazatenango es\nel Ing. Angel Atilio Maltez"]
         },
+        {"tag":"horarios atencion",
+            "patrones":["horarios atencion", "horario", "hora abren", "hora abierta","hora cierra","oficina"],
+            "respuesta":["El horario de atencion es:\n14:00 hrs  a 18:00 hrs"]
+        },
+        {"tag":"precio carrera sistemas",
+            "patrones":["precios carrera sistemas", "precio ingenieria sistemas", "costo ingenieria sistemas", "hora abierta","hora cierra","oficina"],
+            "respuesta":["los precios de ingenieria en sistemas son:\nInscripcion: Q575.00\nMensualidad: Q735.00"]
+        },
+
+        {"tag":"pensum",
+            "patrones":["cursos carrera ingeniería sistemas","pensum carrera sistemas","cursos ingeniería sistemas","pensum ingenieria sistemas","¿ ?"],
+            "respuesta":["Aquí puedes ver el detalle de los cursos del pensum de\nIngeniería en Sistemas de Informacion y Ciencias de la Computacion:\ng2g.to/j7AR"]
+        },
+
         {"tag":"ZZdescarte",
             "patrones":["llueve","terremoto","xasdasdasd","a5as4da6sd4d","asda56s4da+4"],
             "respuesta":["disculpa no puedo responder tu pregunta, no la comprendo"]
